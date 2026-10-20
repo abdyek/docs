@@ -22,7 +22,10 @@ export default defineConfig({
 				'@fontsource/iosevka/700.css',
 				'./src/styles/custom.css',
 			],
-			sidebar: [{ label: 'Introduction', link: '/' }],
+			sidebar: [
+				{ label: 'Introduction', link: '/' },
+				{ label: 'Getting Started', items: [{ autogenerate: { directory: 'getting-started' } }] },
+			],
 			plugins: [starlightLinksValidator()],
 		}),
 	],

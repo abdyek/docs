@@ -35,4 +35,4 @@ Modules, to extend what a site can do, are planned. They will be documented here
 
 ## Get started
 
-[Install the CLI](/getting-started/installation/) and [create your first site](/getting-started/your-first-site/).
+[Install the CLI](/getting-started/installation/) and [create your first site](/getting-started/your-first-site/). To write a theme, start with [How themes work](/themes/how-themes-work/).

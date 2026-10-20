@@ -32,3 +32,7 @@ Umono runs on Linux and macOS, on amd64 and arm64. The Umono CLI creates, starts
 A site comes with an admin panel in twelve languages, a media library for PNG, JPEG and WebP images on local or S3-compatible storage with responsive variants, a sitemap, `robots.txt` and a customizable 404 page.
 
 Modules, to extend what a site can do, are planned. They will be documented here when they arrive.
+
+## Get started
+
+[Install the CLI](/getting-started/installation/) and [create your first site](/getting-started/your-first-site/).

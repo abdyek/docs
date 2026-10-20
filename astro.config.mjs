@@ -25,6 +25,7 @@ export default defineConfig({
 			sidebar: [
 				{ label: 'Introduction', link: '/' },
 				{ label: 'Getting Started', items: [{ autogenerate: { directory: 'getting-started' } }] },
+				{ label: 'Themes', items: [{ autogenerate: { directory: 'themes' } }] },
 			],
 			plugins: [starlightLinksValidator()],
 		}),

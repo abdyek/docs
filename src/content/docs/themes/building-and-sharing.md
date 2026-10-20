@@ -36,7 +36,7 @@ The stylesheet in the package is not your file. It is the checked form of it, wr
 
 ## Versions
 
-`version` in `theme.toml` is `MAJOR.MINOR.PATCH`, with no `v` and no suffix. Raise it for every release: semantic versioning is recommended, and Umono treats every version as a theme of its own. A site can have several versions of a theme installed, and the site owner chooses which one is active.
+`version` in [`theme.toml`](/reference/theme-toml/) is `MAJOR.MINOR.PATCH`, with no `v` and no suffix. Raise it for every release: semantic versioning is recommended, and Umono treats every version as a theme of its own. A site can have several versions of a theme installed, and the site owner chooses which one is active.
 
 An installed version cannot be changed. Installing the same version again needs `umono theme install --force`, and the new content waits until the site owner approves it in the admin panel. Release a new version instead.
 

@@ -22,3 +22,7 @@ The upgrade checks two things first and stops when one fails, before anything is
 - **The installed themes.** Every Umono release supports a range of Theme API versions, and every theme is built for one of them. The CLI does not know which of your themes are active, so it checks all of them under `themes/`. When a theme is outside the range of the new release, the upgrade stops and lists the themes and the reason.
 
 `umono upgrade --allow-theme-break` upgrades anyway and only lists the themes. An active theme among them stops working after the restart: its pages keep their content and are rendered in Umono's default look until you activate a theme that works with the new release.
+
+## Between versions
+
+Some releases change how existing content renders. Read the upgrade notes of the versions you skip: [v0.8 to v0.9](/upgrading/v0-8-to-v0-9/).

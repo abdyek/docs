@@ -37,6 +37,7 @@ export default defineConfig({
 						'reference/theme-api',
 					],
 				},
+				{ label: 'Upgrading', items: [{ autogenerate: { directory: 'upgrading' } }] },
 			],
 			plugins: [starlightLinksValidator()],
 		}),

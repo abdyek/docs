@@ -1,0 +1,69 @@
+name: site
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  ASTRO_TELEMETRY_DISABLED: 1
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Fails on a broken internal link.
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'push'
+        with:
+          name: site
+          path: dist/
+          retention-days: 1
+
+  deploy:
+    if: github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-latest
+    concurrency: production
+    env:
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+      DEPLOY_PORT: ${{ vars.DEPLOY_PORT || '22' }}
+      DEPLOY_PATH: ${{ vars.DEPLOY_PATH || '/srv/docs.umono.dev' }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: dist/
+      - name: Configure SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+      # Every deploy is a new directory under releases/. `current` is switched to it
+      # in one rename, so a visitor never sees a half-uploaded site. The last five
+      # releases are kept.
+      - name: Upload the site
+        run: |
+          tar -C dist -czf - . | ssh -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" \
+            "mkdir -p '$DEPLOY_PATH/releases/$GITHUB_SHA' && tar -xzf - -C '$DEPLOY_PATH/releases/$GITHUB_SHA'"
+      - name: Switch to the new release
+        run: |
+          ssh -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" \
+            "cd '$DEPLOY_PATH' && ln -sfn 'releases/$GITHUB_SHA' current.new && mv -T current.new current && ls -1t releases | tail -n +6 | xargs -r -I{} rm -rf 'releases/{}'"
+      - name: Check the site
+        run: curl -fsS -o /dev/null https://docs.umono.dev/

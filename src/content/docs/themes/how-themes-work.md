@@ -91,7 +91,7 @@ For contracts from v1 on, a newer minor version covers the older ones: a theme f
 
 The Theme API is what themes rely on: the CSS rules, the frozen HTML, the files of a package. Its version is a single number, and Umono v0.9 brings version 1.
 
-You never write the number by hand. `umono theme build` detects which features of the Theme API your theme uses, writes the version they need into the package and prints the reasons. Each Umono release states the range of versions it supports, and it activates only themes inside that range. Apart from security fixes, the Theme API does not break during Umono 0.x: a theme built for version 1 keeps working until Umono v1.
+You never write the number by hand. `umono theme build` detects which features of the Theme API your theme uses, writes the version they need into the package and prints the reasons. Each Umono release states the range of versions it supports, and it activates only themes inside that range. Apart from security fixes, the Theme API does not break during Umono 0.x: a theme built for version 1 keeps working until Umono v1. [Theme API](/reference/theme-api/) lists the versions and their features.
 
 ## The files of a theme
 

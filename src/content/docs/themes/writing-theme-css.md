@@ -84,3 +84,7 @@ Umono sets `lang` and `dir` on `<html>` from the language of the site, and they 
 ## Browser support
 
 The scope relies on `@scope`. A browser without `@scope` ignores the stylesheet of the theme entirely: the page shows its content unstyled, and nothing of the theme leaks outside `<umono-root>`. Newer CSS features are fine to use. A browser that does not know one ignores it as usual.
+
+## All the rules
+
+[Theme CSS](/reference/theme-css/) in the Reference lists every rule, with the complete lists of selectors, media features and functions.

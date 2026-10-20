@@ -80,3 +80,5 @@ The value follows the HTML syntax of `sizes`, with the media features and units 
 ## What cannot be set
 
 Everything else on an element belongs to the content or to Umono: `id`, `style`, `href`, `src`, `alt`, `title`, `role`, `aria-*`, `data-*`, event handlers and the rest. A theme only gives the structure something to select.
+
+The format of the file is in the [Reference](/reference/attributes-toml/). The layouts, exposed components and addresses of the official contracts are on their pages: [`umono/page v0.1`](/reference/contracts/umono-page-v0-1/) and [`umono/blog v0.1`](/reference/contracts/umono-blog-v0-1/).

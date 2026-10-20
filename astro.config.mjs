@@ -26,6 +26,17 @@ export default defineConfig({
 				{ label: 'Introduction', link: '/' },
 				{ label: 'Getting Started', items: [{ autogenerate: { directory: 'getting-started' } }] },
 				{ label: 'Themes', items: [{ autogenerate: { directory: 'themes' } }] },
+				{
+					label: 'Reference',
+					items: [
+						'reference/cli',
+						'reference/theme-toml',
+						'reference/attributes-toml',
+						{ label: 'Contracts', items: [{ autogenerate: { directory: 'reference/contracts' } }] },
+						'reference/theme-css',
+						'reference/theme-api',
+					],
+				},
 			],
 			plugins: [starlightLinksValidator()],
 		}),

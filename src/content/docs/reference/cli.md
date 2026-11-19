@@ -107,3 +107,9 @@ Runs in the directory of a site with Umono v0.9 or later. Checks the package wit
 | `--allow-incompatible-api` | Install a theme whose Theme API version is outside the range of this Umono. It cannot be activated until Umono supports it |
 
 A theme with a Theme API version newer than the CLI knows is refused even with `--allow-incompatible-api`.
+
+## Shell completion
+
+### `umono completion <shell>`
+
+Prints the completion script of `bash`, `zsh` or `fish` to standard output. The script asks the CLI on every completion and never needs to be generated again. Since v0.4 ([Shell completion](/getting-started/installation/#shell-completion)).

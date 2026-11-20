@@ -34,7 +34,7 @@ Every entry of `menu` has all four keys:
 | --- | --- | --- |
 | `text` | string | The text of the link |
 | `url` | string | The address of the link |
-| `current` | string | `"page"` on the entry of the current page, which gets `aria-current="page"`. `""` on the others |
+| `current` | string | `"page"` on the entry of the current page, which gets `aria-current="page"`. `""` on the others. Since Umono v0.10, `"__auto"` on every entry lets Umono mark the current page ([The menu](/writing-content/custom-context/#the-menu)) |
 | `children` | array | The entries of a submenu, with the same four keys. `[]` when there is none |
 
 ```text

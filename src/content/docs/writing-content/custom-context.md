@@ -93,7 +93,7 @@ Umono marks an entry when its `url` is the address of the page being rendered:
 
 In the page editor, the preview uses the saved slug of the page: a changed slug shows in the preview after you save. A new page that is not saved yet and the preview of a global component have no address, so no entry is marked there.
 
-`__auto` works in any `current` of a `LINK`, not only in the menu.
+`__auto` works in any `current` of a [`LINK`](/compono/link/#__auto), not only in the menu.
 
 ## Rename or delete a value
 

@@ -82,7 +82,7 @@ A theme gives a site its look. [Octavo](https://github.com/umono-cms/theme-octav
    The CLI checks the package and installs it under `themes/umono/octavo/0.1.0/`.
 3. In the admin panel, open **Settings → Themes** and click **Activate** next to Octavo.
 
-   Umono checks the theme again and verifies its contract on [umono.dev](https://umono.dev) with a single request that carries no site address. Each contract version is verified once per site. Later activations of themes for the same contract version do not ask umono.dev.
+   Umono checks the theme again and verifies its contract with a signature it downloads from [umono.dev](https://umono.dev), with a single request that carries no site address. Each contract version is verified once per site. Later activations of themes for the same contract version do not ask umono.dev. A site without internet access uses a [mirror](/themes/mirror/).
 
 ## Bind the page to a layout
 

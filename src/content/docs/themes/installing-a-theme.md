@@ -28,7 +28,14 @@ When the theme needs a newer Theme API than the CLI knows, the CLI cannot check 
 
 Open **Settings → Themes**. Installed themes are listed by contract group, for example `umono/page v0.1`, with the number of pages bound to the group. Click **Activate** next to a theme.
 
-Umono checks the theme again before it activates it. The first time a contract version is activated on a site, Umono verifies it on [umono.dev](https://umono.dev) with a single request that carries no site address and no Umono version. After that, the contract is stored on the site and umono.dev is not asked again. A site that cannot reach umono.dev cannot activate a contract version it has not stored yet.
+Umono checks the theme again before it activates it. The first time a contract version is activated on a site, Umono verifies the `contract.toml` in the theme's package:
+
+- It downloads only the signature of the contract from [umono.dev](https://umono.dev), with a single request that carries no site address and no Umono version. The confirm of **Activate** names the host that will be asked.
+- It verifies the contract with the signature on the site itself, with the public key built into Umono. A contract whose signature does not verify is not the published contract, and the theme is not activated.
+
+After that, the contract is stored on the site and the registry is not asked again. Activating another theme of the same contract version, or the same theme again, works offline.
+
+A site that cannot reach umono.dev, for example on a network closed to the internet, cannot activate a contract version it has not stored yet. Serve the signatures from a [mirror](/themes/mirror/) on its own network and point Umono at it with `UMONO_REGISTRY`.
 
 Each group has at most one active theme. Activating another theme of the group replaces the active one in one step. Every page bound to the group changes its look on the next page load, and no page changes its content.
 

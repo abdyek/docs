@@ -26,6 +26,7 @@ export default defineConfig({
 				{ label: 'Introduction', link: '/' },
 				{ label: 'Getting Started', items: [{ autogenerate: { directory: 'getting-started' } }] },
 				{ label: 'Writing Content', items: [{ autogenerate: { directory: 'writing-content' } }] },
+				{ label: 'Compono', items: [{ autogenerate: { directory: 'compono' } }] },
 				{ label: 'Themes', items: [{ autogenerate: { directory: 'themes' } }] },
 				{
 					label: 'Reference',

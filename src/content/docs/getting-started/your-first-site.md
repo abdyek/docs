@@ -117,6 +117,20 @@ Octavo styles the `page` layout of `umono/page v0.1`: the site header with a men
 
 The page now has Octavo's header, menu and footer. Every page bound to a layout of `umono/page v0.1` is rendered with the active theme of that contract. When you activate another theme for it, every such page changes its look, and none of them changes its content.
 
+## Add a favicon
+
+The favicon is the icon in the browser tab. It belongs to the site, not to the theme, so it stays when you activate another theme. The site, its 404 page and the admin panel all use the same one. Since v0.10.
+
+1. Open **Settings → General**.
+2. Under **Favicon**, click **Upload** and choose a PNG or ICO file of up to 256 KiB. A square image of at least 32×32 is recommended.
+
+The favicon is served at `/favicon.ico`, as a PNG too. Every page links it, and a new favicon shows in the tab without clearing the cache of the browser. **Replace** uploads another one, and **Remove** removes it.
+
+- The format is read from the content of the file, not from its name: a PNG renamed to `.ico` is accepted, and a JPEG renamed to `.png` is not. SVG is not supported.
+- A file that is refused does not change the saved favicon.
+- The favicon is separate from the media library. It has no resized variants and is kept in the database of the site, even when the media is on S3-compatible storage.
+- Without a favicon, pages link none and `/favicon.ico` answers `404`.
+
 ## Next
 
 Keep the site current with [`umono upgrade`](/getting-started/updating-umono/).

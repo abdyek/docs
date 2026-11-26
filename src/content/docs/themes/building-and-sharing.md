@@ -75,4 +75,4 @@ umono theme dev --update-server
 
 This moves `.dev/server` to the latest release and keeps its pages. To start over with an empty site, delete `.dev/server`.
 
-A CLI only detects the features of the Theme API versions it knows. When a new Umono release brings a new Theme API version, update the CLI to use its features. An older CLI does not stop you: it builds the theme with a lower version than it needs, and Umono refuses the package. Theme API 2 came with Umono v0.10 and needs CLI v0.5.0 ([Theme API](/reference/theme-api/#features-of-theme-api-2)).
+A CLI only detects the features of the Theme API versions it knows. When a new Umono release brings a new Theme API version, update the CLI to use its features. An older CLI does not stop you: it builds the theme with a lower version than it needs, and Umono releases that know the feature refuse the package. Theme API 2 came with Umono v0.10 and needs CLI v0.5.0 ([Theme API](/reference/theme-api/#features-of-theme-api-2)).

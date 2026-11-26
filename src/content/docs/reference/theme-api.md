@@ -24,7 +24,7 @@ The Theme API is everything a theme relies on: the rules of its files, the HTML 
 
 A theme gets a newer version only when it uses a feature of that version. A theme that uses none of the features of Theme API 2 is still built as 1 and runs on Umono v0.9 and v0.10 alike.
 
-A CLI builds for the versions it knows. CLI v0.5.0 is the first to know Theme API 2: an older CLI cannot build a theme that uses its features, and refuses to install a theme built for it.
+CLI v0.5.0 is the first CLI that knows Theme API 2. CLI v0.4.0 and older do not recognize its feature: they build a theme that uses it without an error and declare Theme API 1. Umono v0.10 refuses that package on install and activation, because it declares less than it uses. Build the theme again with CLI v0.5.0. An older CLI also refuses to install a theme built for Theme API 2.
 
 ## How the version changes
 

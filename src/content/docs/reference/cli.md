@@ -59,6 +59,8 @@ Prints the version of the CLI.
 
 ## Themes
 
+`theme create`, `theme dev` and `theme build` fetch contracts from umono.dev, or from the mirror set in the `UMONO_REGISTRY` environment variable ([Using a mirror](/themes/mirror/#point-the-cli-at-the-mirror)).
+
 ### `umono theme create <name>`
 
 Creates a theme project in the new directory `<name>` with `theme.toml`, `assets/theme.css` (Umono's default look), `.gitignore` and the contract in `.dev/contracts/`. Every value that is not given as a flag is asked. Nothing is written until every value is valid, and an existing file or directory is never overwritten.

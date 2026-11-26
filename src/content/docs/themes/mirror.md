@@ -1,13 +1,13 @@
 ---
 title: Using a mirror
-description: Serve the contracts of umono.dev from your own server, point Umono at it with UMONO_REGISTRY and verify the files with the public key.
+description: Serve the contracts of umono.dev from your own server, point Umono and the CLI at it with UMONO_REGISTRY and verify the files with the public key.
 sidebar:
   order: 9
 ---
 
-This page is for site owners. A mirror is a server of your own that serves the files of [umono.dev](https://umono.dev) at the same paths. Use one when your site cannot or should not reach umono.dev, for example on a network that is closed to the internet. Since Umono v0.10.
+This page is for site owners and theme developers. A mirror is a server of your own that serves the files of [umono.dev](https://umono.dev) at the same paths. Use one when your site or your theme project cannot or should not reach umono.dev, for example on a network that is closed to the internet. Since Umono v0.10 and CLI v0.5.0.
 
-A mirror only serves contracts. Contracts are still published only on umono.dev, and the mirror cannot change them: every contract is signed, and Umono verifies the signature with a key it already has.
+A mirror only serves contracts. Contracts are still published only on umono.dev, and the mirror cannot change them: every contract is signed, and Umono and the CLI verify the signature with a key they already have.
 
 ## When Umono asks the registry
 
@@ -31,9 +31,9 @@ curl -O https://umono.dev/registry/v1/contracts/umono/page/v0.1
 curl -O https://umono.dev/registry/v1/contracts/umono/page/v0.1.minisig
 ```
 
-Serve them at the same paths under the root of your mirror, for example `https://registry.example.lan/registry/v1/contracts/umono/page/v0.1.minisig`. Any static file server works. There is no index file: copy only the contracts you use. Umono itself requests only the `.minisig`, but keep the contract next to it so the pair can be checked at any time.
+Serve them at the same paths under the root of your mirror, for example `https://registry.example.lan/registry/v1/contracts/umono/page/v0.1.minisig`. Any static file server works. There is no index file: copy only the contracts you use. Umono requests only the `.minisig`. The CLI requests the contract and then its signature, so a mirror that theme developers use must serve both files. Either way, keep the contract next to its signature so the pair can be checked at any time.
 
-The mirror must answer `200` with the signature, or `404` when it does not have it. Umono reads `404` as a contract that is not published. Any other answer, or no answer, is a registry that cannot be reached.
+The mirror must answer `200` with the file, or `404` when it does not have it. Umono and the CLI read `404` as a contract that is not published. Any other answer, or no answer, is a registry that cannot be reached.
 
 ## Point Umono at the mirror
 
@@ -59,6 +59,48 @@ Activation is refused and nothing is written when:
 - **The mirror cannot be reached**, or answers with something other than `200` or `404`.
 - **The mirror has no signature** for the contract (`404`): the contract counts as not published.
 - **The signature does not verify:** "The contract in the theme's package is not the published contract." The package has a contract that was not published like this, or the mirror serves a wrong or damaged signature. Copy the signature from umono.dev again.
+
+## Point the CLI at the mirror
+
+For theme developers. The CLI reads `UMONO_REGISTRY` from the environment of the shell. Unlike Umono, it does not read a `.env` file, so writing the value into one changes nothing. Export it, or write it before the command:
+
+```sh
+export UMONO_REGISTRY=https://registry.example.lan
+umono theme dev
+```
+
+```sh
+UMONO_REGISTRY=https://registry.example.lan umono theme build
+```
+
+- `umono theme create`, `umono theme dev` and `umono theme build` use it. `umono theme install` does not ask the registry and does not read it.
+- The value follows the [same rules](#point-umono-at-the-mirror) as for Umono. With a value that is not valid, the three commands stop at start, even when the contract is already in `.dev/contracts/`.
+- When it is set, the mirror replaces umono.dev completely, as for Umono.
+
+### When the CLI asks the registry
+
+The CLI asks the registry when the contract of `theme.toml` is not in `.dev/contracts/` yet. It makes two `GET` requests, first for the contract and then for its signature, with the User-Agent `Umono`, no query and no cookie. It writes the contract into `.dev/contracts/` only when the signature verifies.
+
+A contract that is already in `.dev/contracts/` is not fetched or verified again. To try a mirror with a contract you already have, delete its file, for example `.dev/contracts/umono/page/v0.1.toml`, and run `umono theme build`.
+
+The check of the CLI is not what protects a site: Umono verifies the contract again when the theme is activated. The CLI's check shows a broken mirror before you build.
+
+### When the CLI fails
+
+The errors name the host that was asked:
+
+| The error says | |
+| --- | --- |
+| `contract is not published on the registry (registry.example.lan)` | The mirror answered `404` for the contract or for its signature |
+| `registry is unreachable (registry.example.lan)` | The mirror did not answer, or answered with something other than `200` or `404` |
+| `the contract the registry serves is not the published contract (registry.example.lan)` | The signature does not verify. Nothing is written to `.dev/contracts/`. Copy both files from umono.dev again |
+| `UMONO_REGISTRY must be an http or https root URL without a query or fragment` | The value of `UMONO_REGISTRY` is not valid |
+
+### What the mirror does not cover
+
+A mirror serves only contracts. `umono theme dev` downloads `.dev/server` from the GitHub release of Umono on its first run and with `--update-server`. On a network closed to the internet, a mirror does not solve that step.
+
+CLI v0.4.0 and older do not read `UMONO_REGISTRY`. They always ask umono.dev and do not verify the signature.
 
 ## Verify a file with the public key
 

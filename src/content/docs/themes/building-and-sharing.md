@@ -15,7 +15,7 @@ umono theme build
 
 The build:
 
-1. Fetches the contract of `theme.toml` from umono.dev, unless it is already in `.dev/contracts/`.
+1. Fetches the contract of `theme.toml` and its signature from umono.dev, or from a [mirror](/themes/mirror/#point-the-cli-at-the-mirror) set with `UMONO_REGISTRY`, unless the contract is already in `.dev/contracts/`. The contract is written there only when its signature verifies.
 2. Checks every file: `theme.toml`, the stylesheet, the assets, `attributes.toml` against the contract, and `LICENSE`. The first failed check stops the build and leaves `dist/` untouched.
 3. Detects the Theme API version the theme needs and prints it with its reasons.
 4. Prints warnings, for example a root class selected without `:scope`. Warnings do not stop the build.

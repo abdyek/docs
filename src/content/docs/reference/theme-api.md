@@ -1,11 +1,11 @@
 ---
 title: Theme API
-description: Theme API versions, which Umono and CLI releases support them, and the features of Theme API 1.
+description: Theme API versions, which Umono and CLI releases support them, and the features of Theme API 1 and 2.
 ---
 
 The Theme API is everything a theme relies on: the rules of its files, the HTML it styles and the frame around it. Its version is a single, growing number.
 
-- A theme declares the version it needs as `theme-api-version` in `built.toml`. The build detects it. It is never written by hand.
+- A theme declares the version it needs as `theme-api-version` in `built.toml`. The build detects it from the features the theme uses: it is the highest version among them, and never below `theme_api_min`. It is never written by hand.
 - A Umono release supports a range, `theme_api_min` to `theme_api_current` in its `umono.json`. It activates a theme when `theme_api_min ≤ theme-api-version ≤ theme_api_current`.
 - Umono does not trust the number in a package. On install and activation it detects the features the theme uses again, and refuses a theme that declares less than it uses.
 - Umono renders every theme it accepts the same way. The version is only a gate.
@@ -15,10 +15,16 @@ The Theme API is everything a theme relies on: the rules of its files, the HTML 
 | Theme API | Since | |
 | --- | --- | --- |
 | 1 | Umono v0.9.0, CLI v0.3.0 | The first Theme API |
+| 2 | Umono v0.10.0, CLI v0.5.0 | [`__auto`](/compono/link/#__auto) in the `current` of a `LINK` in the contract |
 
 | Umono | `theme_api_min` | `theme_api_current` |
 | --- | --- | --- |
 | v0.9.0 | 1 | 1 |
+| v0.10.0 | 1 | 2 |
+
+A theme gets a newer version only when it uses a feature of that version. A theme that uses none of the features of Theme API 2 is still built as 1 and runs on Umono v0.9 and v0.10 alike.
+
+CLI v0.5.0 is the first CLI that knows Theme API 2. CLI v0.4.0 and older do not recognize its feature: they build a theme that uses it without an error and declare Theme API 1. Umono v0.10 refuses that package on install and activation, because it declares less than it uses. Build the theme again with CLI v0.5.0. An older CLI also refuses to install a theme built for Theme API 2.
 
 ## How the version changes
 
@@ -53,6 +59,34 @@ theme-api-version: 1
 | `compono.markdown.heading`, `.p`, `.br`, `.em`, `.strong`, `.link`, `.inline-code`, `.code-block`, `.list`, `.blockquote`, `.hr`, `.table` | A Markdown element used by the contract |
 
 Everything a theme relies on without using it explicitly is the base of Theme API 1 and is not listed: the frame and `<umono-root>`, the [CSS rules](/reference/theme-css/), the package format and limits, the scope model of addresses, the frozen HTML of Compono, and the Content-Security-Policy.
+
+## Features of Theme API 2
+
+Theme API 2 adds one feature and breaks nothing. `theme_api_min` stays 1.
+
+| Feature | Detected from |
+| --- | --- |
+| `compono.link.current-auto` | `current = "__auto"` written in a `LINK` call of the contract |
+
+Only a literal `__auto` in `contract.toml` counts. A contract that writes
+
+```text
+{{ LINK text = "Home" url = "/" current = "__auto" }}
+```
+
+makes its themes need Theme API 2:
+
+```text
+theme-api-version: 2
+  ← contract.toml:layouts[0].source:4  compono.builtin.link (API 1)
+  …
+  ← contract.toml:layouts[0].source    compono.link.current-auto (API 2)
+  ← theme_api_min                      1
+```
+
+The place is the source of the contract without a line: the build does not report where the value is in the source.
+
+An `__auto` that comes from page data does not count. The menu of [`umono/page v0.1`](/reference/contracts/umono-page-v0-1/) passes `current = item.current` to `LINK`, and the site owner writes `current: "__auto"` in the menu ([The menu](/writing-content/custom-context/#the-menu)). The HTML a theme sees is the same as with `"page"` and `""`, so the themes of that contract stay at Theme API 1. Neither official contract writes `__auto` itself.
 
 ## The frozen HTML
 

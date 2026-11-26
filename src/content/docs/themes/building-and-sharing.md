@@ -61,7 +61,13 @@ Commit the project, not the package: `.gitignore` keeps `dist/` and `.dev/` out.
 
 ## Keep up with Umono
 
-The development server in `.dev/server` is the latest Umono release at the time of the first `dev`, and it never updates by itself. When a newer Umono supports a different range of the Theme API than your CLI, `dev` warns at start. Then:
+The development server in `.dev/server` is the latest Umono release at the time of the first `dev`, and it never updates by itself. When a newer Umono supports a different range of the Theme API than your CLI, `dev` warns at start:
+
+```text
+The Theme API of the runtime (1 to 1) differs from the CLI's (1 to 2). Update the runtime with: umono theme dev --update-server
+```
+
+Then:
 
 ```sh
 umono theme dev --update-server
@@ -69,4 +75,4 @@ umono theme dev --update-server
 
 This moves `.dev/server` to the latest release and keeps its pages. To start over with an empty site, delete `.dev/server`.
 
-A CLI can only build for the Theme API versions it knows. When a new Umono release brings a new Theme API version, update the CLI to use its features.
+A CLI can only build for the Theme API versions it knows. When a new Umono release brings a new Theme API version, update the CLI to use its features. Theme API 2 came with Umono v0.10 and needs CLI v0.5.0 ([Theme API](/reference/theme-api/#features-of-theme-api-2)).

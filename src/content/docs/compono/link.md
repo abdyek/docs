@@ -79,6 +79,7 @@ On `/blog`, only the second link is marked:
 ```
 
 - `__auto` can be written directly in the call or come from a parameter, a record or `context(…)`.
+- In a theme's contract, a `current = "__auto"` written directly in the call makes the theme need [Theme API 2](/reference/theme-api/#features-of-theme-api-2). An `__auto` from page data does not.
 - The query, the fragment and a trailing `/` of `url` are ignored. A `url` with a scheme or a host never matches. The full rules are in [Custom context](/writing-content/custom-context/#the-menu).
 - No link is marked on the not-found page, in the preview of a new page that is not saved yet or in the preview of a global component.
 - A value that starts with `__` is never written to the HTML. `__auto` is the only one, and any other, such as `__current`, is an error. This is only for `current`: in other parameters and in text, `__` is plain text.
